@@ -58,9 +58,9 @@
     "react-day-picker": "9.8.0",
     "react-dom": "^18",
     "react-hook-form": "7.54.1",
-    "react-leaflet": "4.2.1",
+    "react-leaflet": "latest",
     "react-leaflet-cluster": "latest",
-    "react-leaflet-heatmap-layer-v3": "3.0.3-beta-1",
+    "react-leaflet-heatmap-layer-v3": "latest",
     "react-resizable-panels": "2.1.7",
     "recharts": "latest",
     "sonner": "1.7.1",
@@ -83,7 +83,7 @@
       "react-dom": "18.2.0",
       "react-leaflet": "4.2.1",
       "react-leaflet-cluster": "2.1.0",
-      "react-leaflet-heatmap-layer-v3": "3.0.3"
+      "react-leaflet-heatmap-layer-v3": "3.0.3-beta-1"
     }
   }
 }
