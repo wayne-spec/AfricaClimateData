@@ -2,20 +2,12 @@
 
 import { SignUp } from "@clerk/nextjs"
 
-export default function Page() {
+export default function SignUpPage() {
   return (
-    <div className="flex min-h-[80vh] items-center justify-center p-6">
-      <SignUp
-        routing="path"
-        path="/sign-up"
-        appearance={{
-          elements: {
-            formButtonPrimary: "bg-green-600 hover:bg-green-700 text-white",
-          },
-        }}
-        // After sign up, let them into the app
-        afterSignUpUrl="/"
-      />
-    </div>
+    <main className="min-h-screen flex items-center justify-center p-6">
+      <div className="bg-white/90 backdrop-blur-md rounded-xl shadow-lg p-6">
+        <SignUp afterSignUpUrl="/" />
+      </div>
+    </main>
   )
 }

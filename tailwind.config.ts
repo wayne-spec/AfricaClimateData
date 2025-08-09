@@ -20,7 +20,19 @@ const config = {
     },
     extend: {
       fontFamily: {
-        sans: ["var(--font-lato)", "system-ui", "sans-serif"],
+        sans: [
+          "ui-sans-serif",
+          "system-ui",
+          "Segoe UI",
+          "Roboto",
+          "Helvetica Neue",
+          "Arial",
+          "Noto Sans",
+          "Apple Color Emoji",
+          "Segoe UI Emoji",
+          "Segoe UI Symbol",
+          "Noto Color Emoji",
+        ],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -56,7 +68,6 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        // Africa-themed colors - updated blue to green
         "africa-green": "#0A5D22",
         "africa-red": "#E42D40",
         "africa-black": "#222222",

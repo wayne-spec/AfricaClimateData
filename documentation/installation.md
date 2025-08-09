@@ -21,6 +21,6 @@ Before you begin, ensure you have the following installed:
 
 ### 1. Clone the Repository
 
-\`\`\`bash
+```bash
 git clone https://github.com/your-organization/africa-climate-data-platform.git
 cd africa-climate-data-platform

@@ -4,112 +4,178 @@ import Link from "next/link"
 
 export default function AccessGate() {
   return (
-    <section className="relative min-h-[100vh] overflow-hidden">
-      {/* Background gradient + subtle pattern */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-0"
-        style={{
-          background:
-            "linear-gradient(135deg, rgba(34,139,34,0.9) 0%, rgba(0,100,0,0.8) 50%, rgba(46,125,50,0.9) 100%), url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 1000'%3E%3Cdefs%3E%3Cpattern id='leaves' x='0' y='0' width='200' height='200' patternUnits='userSpaceOnUse'%3E%3Ccircle cx='50' cy='50' r='30' fill='rgba(255,255,255,0.1)'/%3E%3Ccircle cx='150' cy='100' r='25' fill='rgba(255,255,255,0.08)'/%3E%3Ccircle cx='100' cy='150' r='20' fill='rgba(255,255,255,0.06)'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23leaves)'/%3E%3C/svg%3E\")",
-          backgroundSize: "cover",
-          backgroundAttachment: "fixed",
+    <main>
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { line-height: 1.6; color: #333; overflow-x: hidden; }
+        .hero-section {
+          min-height: 100vh;
+          background: linear-gradient(135deg,
+            rgba(34, 139, 34, 0.9) 0%,
+            rgba(0, 100, 0, 0.8) 50%,
+            rgba(46, 125, 50, 0.9) 100%),
+            url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><pattern id="leaves" x="0" y="0" width="200" height="200" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="30" fill="rgba(255,255,255,0.1)"/><circle cx="150" cy="100" r="25" fill="rgba(255,255,255,0.08)"/><circle cx="100" cy="150" r="20" fill="rgba(255,255,255,0.06)"/></pattern></defs><rect width="100%" height="100%" fill="url(%23leaves)"/></svg>');
+          background-size: cover;
+          background-attachment: fixed;
+          display: flex; align-items: center; justify-content: center;
+          position: relative; padding: 2rem 0;
+          font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        .floating-elements { position: absolute; width: 100%; height: 100%; overflow: hidden; z-index: 1; }
+        .floating-element { position: absolute; background: rgba(255, 255, 255, 0.1); border-radius: 50%; animation: float 6s ease-in-out infinite; }
+        .floating-element:nth-child(1) { width: 80px; height: 80px; top: 20%; left: 10%; animation-delay: 0s; }
+        .floating-element:nth-child(2) { width: 60px; height: 60px; top: 60%; right: 15%; animation-delay: 2s; }
+        .floating-element:nth-child(3) { width: 100px; height: 100px; bottom: 30%; left: 20%; animation-delay: 4s; }
+        @keyframes float { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-20px) rotate(180deg); } }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; text-align: center; position: relative; z-index: 2; }
+        .logo { font-size: 3rem; font-weight: 800; color: white; margin-bottom: 1rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); animation: slideInFromTop 1s ease-out; }
+        .tagline { font-size: 1.5rem; color: rgba(255, 255, 255, 0.9); margin-bottom: 2rem; font-weight: 300; animation: slideInFromLeft 1s ease-out 0.3s both; }
+
+        .beta-banner {
+          background: rgba(255, 193, 7, 0.95); color: #333; padding: 1rem 1.5rem; border-radius: 10px;
+          margin: 1rem auto; max-width: 400px; font-weight: 700; font-size: 0.95rem;
+          box-shadow: 0 4px 15px rgba(255, 193, 7, 0.4); animation: slideInFromLeft 1s ease-out 0.2s both;
+          border: 2px solid #ffc107; text-align: center;
+        }
+
+        .main-message {
+          background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);
+          padding: 3rem; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+          margin: 2rem auto; max-width: 700px; animation: slideInFromBottom 1s ease-out 0.6s both;
+          border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .thank-you {
+          font-size: 2.5rem; font-weight: 700; margin-bottom: 1rem;
+          background: linear-gradient(45deg, #2e7d32, #4caf50);
+          -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .message-text { font-size: 1.2rem; color: #555; line-height: 1.8; margin-bottom: 2rem; }
+
+        .features-preview {
+          display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin: 3rem 0;
+          animation: fadeInUp 1s ease-out 0.9s both;
+        }
+        .feature-card {
+          background: rgba(255, 255, 255, 0.1); padding: 2rem; border-radius: 15px;
+          backdrop-filter: blur(5px); border: 1px solid rgba(255, 255, 255, 0.2);
+          transition: all 0.3s ease; cursor: pointer;
+        }
+        .feature-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.2); background: rgba(255, 255, 255, 0.2); }
+        .feature-icon { font-size: 3rem; margin-bottom: 1rem; display: block; color: #fff; }
+        .feature-title { font-size: 1.3rem; font-weight: 600; color: white; margin-bottom: 0.5rem; }
+        .feature-desc { color: rgba(255, 255, 255, 0.85); font-size: 0.95rem; }
+
+        .contact-section { margin-top: 3rem; animation: fadeInUp 1s ease-out 1.2s both; }
+        .contact-title { font-size: 2rem; color: white; margin-bottom: 1rem; font-weight: 600; }
+        .contact-text { color: rgba(255, 255, 255, 0.9); font-size: 1.1rem; margin-bottom: 1.25rem; }
+
+        .cta-row { display: flex; gap: 12px; align-items: center; justify-content: center; flex-wrap: wrap; }
+        .contact-button {
+          background: linear-gradient(135deg, #4caf50, #45a049); color: white; padding: 12px 22px; border: none;
+          border-radius: 50px; font-size: 1.05rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease;
+          text-decoration: none; display: inline-block; box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+        }
+        .contact-button:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(76, 175, 80, 0.4); background: linear-gradient(135deg, #45a049, #4caf50); }
+
+        .auth-button {
+          background: rgba(255,255,255,0.95); color: #2e7d32; padding: 12px 22px; border-radius: 9999px;
+          font-weight: 700; text-decoration: none; border: 2px solid rgba(255,255,255,0.6);
+        }
+        .auth-button:hover { background: white; }
+
+        .scroll-indicator { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); color: rgba(255, 255, 255, 0.9); animation: bounce 2s infinite; }
+        @keyframes bounce { 0%,20%,50%,80%,100% { transform: translateX(-50%) translateY(0); } 40% { transform: translateX(-50%) translateY(-10px); } 60% { transform: translateX(-50%) translateY(-5px); } }
+
+        @keyframes slideInFromTop { from { transform: translateY(-100px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes slideInFromLeft { from { transform: translateX(-100px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @keyframes slideInFromBottom { from { transform: translateY(100px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes fadeInUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        @media (max-width: 768px) {
+          .logo { font-size: 2rem; }
+          .tagline { font-size: 1.2rem; }
+          .main-message { padding: 2rem; margin: 1rem; }
+          .thank-you { font-size: 2rem; }
+          .features-preview { grid-template-columns: 1fr; gap: 1rem; }
+        }
+      `,
         }}
       />
-
-      {/* Floating elements */}
-      <div className="pointer-events-none absolute inset-0 z-[1]">
-        <span className="absolute left-[10%] top-[20%] h-20 w-20 animate-[float_6s_ease-in-out_infinite] rounded-full bg-white/10" />
-        <span className="absolute right-[15%] top-[60%] h-14 w-14 animate-[float_6s_ease-in-out_infinite] rounded-full bg-white/10 [animation-delay:2s]" />
-        <span className="absolute bottom-[30%] left-[20%] h-24 w-24 animate-[float_6s_ease-in-out_infinite] rounded-full bg-white/10 [animation-delay:4s]" />
-      </div>
-
-      {/* Content */}
-      <div className="relative z-[2] mx-auto max-w-[1200px] px-6 py-10 text-center text-white">
-        <h1 className="mb-4 text-4xl font-extrabold drop-shadow-md sm:text-5xl">
-          {"🌍 Africa Climate & Nature Data Platform"}
-        </h1>
-        <p className="mx-auto mb-6 max-w-xl text-lg font-light text-white/90">
-          {"Bridging Climate Science with Data Analytics"}
-        </p>
-
-        <div className="mx-auto mb-6 max-w-[350px] rounded-lg border-2 border-amber-400 bg-amber-300/95 p-4 text-center font-bold text-gray-800 shadow-[0_4px_15px_rgba(255,193,7,0.4)]">
-          <div className="mb-1 text-xl">{"⚠️"}</div>
-          <div>{"This beta version of the platform is currently only available to select users."}</div>
+      <section className="hero-section" aria-label="Access Gate">
+        <div className="floating-elements" aria-hidden="true">
+          <div className="floating-element" />
+          <div className="floating-element" />
+          <div className="floating-element" />
         </div>
 
-        <div className="mx-auto mb-10 max-w-[600px] rounded-2xl border border-white/20 bg-white/95 p-8 text-gray-700 shadow-xl backdrop-blur">
-          <h2 className="bg-gradient-to-r from-green-700 to-green-500 bg-clip-text text-3xl font-extrabold text-transparent">
-            {"Thank You for Visiting Us!"}
-          </h2>
-          <p className="mt-4 text-lg leading-8">
-            {
-              "We appreciate your interest in our groundbreaking platform that integrates Africa's climate data with biodiversity insights to drive evidence-based conservation and climate adaptation strategies across the continent."
-            }
-          </p>
-        </div>
+        <div className="container">
+          <h1 className="logo">{"🌍 Africa Climate & Nature Data Platform"}</h1>
+          <p className="tagline">{"Bridging Climate Science with Data Analytics"}</p>
 
-        {/* Feature cards */}
-        <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          <div className="cursor-pointer rounded-xl border border-white/20 bg-white/10 p-6 backdrop-blur transition-all duration-300 hover:-translate-y-2 hover:bg-white/20 hover:shadow-2xl">
-            <div className="mb-2 text-3xl">{"🌡️"}</div>
-            <h3 className="mb-1 text-lg font-semibold">{"Climate Data"}</h3>
-            <p className="text-white/80">
-              {"Real-time climate data analysis and long-term trend forecasting across African regions"}
+          <div className="beta-banner" role="status" aria-live="polite">
+            <div style={{ fontSize: "1.2rem", marginBottom: "0.3rem" }}>{"⚠️"}</div>
+            {"This beta version of the platform is currently only available to select users."}
+          </div>
+
+          <div className="main-message">
+            <h2 className="thank-you">{"Thank You for Visiting Us!"}</h2>
+            <p className="message-text">
+              {
+                "We appreciate your interest in our groundbreaking platform that integrates Africa's climate data with biodiversity insights to drive evidence-based conservation and climate adaptation strategies across the continent."
+              }
             </p>
           </div>
-          <div className="cursor-pointer rounded-xl border border-white/20 bg-white/10 p-6 backdrop-blur transition-all duration-300 hover:-translate-y-2 hover:bg-white/20 hover:shadow-2xl">
-            <div className="mb-2 text-3xl">{"📊"}</div>
-            <h3 className="mb-1 text-lg font-semibold">{"Analytics Dashboard"}</h3>
-            <p className="text-white/80">
-              {"Interactive data visualization and insights dashboard for climate and nature analytics"}
-            </p>
+
+          <div className="features-preview" aria-label="Features">
+            <div className="feature-card">
+              <span className="feature-icon">{"🌡️"}</span>
+              <h3 className="feature-title">{"Climate Data"}</h3>
+              <p className="feature-desc">
+                {"Real-time climate data analysis and long-term trend forecasting across African regions"}
+              </p>
+            </div>
+            <div className="feature-card">
+              <span className="feature-icon">{"📊"}</span>
+              <h3 className="feature-title">{"Analytics Dashboard"}</h3>
+              <p className="feature-desc">
+                {"Interactive data visualization and insights dashboard for climate and nature analytics"}
+              </p>
+            </div>
+            <div className="feature-card">
+              <span className="feature-icon">{"🌿"}</span>
+              <h3 className="feature-title">{"Nature-Climate Interface"}</h3>
+              <p className="feature-desc">
+                {"Comprehensive analysis of how climate change affects African ecosystems and biodiversity"}
+              </p>
+            </div>
           </div>
-          <div className="cursor-pointer rounded-xl border border-white/20 bg-white/10 p-6 backdrop-blur transition-all duration-300 hover:-translate-y-2 hover:bg-white/20 hover:shadow-2xl">
-            <div className="mb-2 text-3xl">{"🌿"}</div>
-            <h3 className="mb-1 text-lg font-semibold">{"Nature-Climate Interface"}</h3>
-            <p className="text-white/80">
-              {"Comprehensive analysis of how climate change affects African ecosystems and biodiversity"}
+
+          <div className="contact-section">
+            <h3 className="contact-title">{"Interested in Learning More?"}</h3>
+            <p className="contact-text">
+              {"Connect with our team to discuss partnership opportunities and future access to our platform."}
             </p>
+            <div className="cta-row">
+              <a
+                href="mailto:reubenmuwhindi@gmail.com?subject=Africa%20Climate%20%26%20Nature%20Data%20Platform%20-%20Inquiry"
+                className="contact-button"
+              >
+                {"Get in Touch"}
+              </a>
+              <Link className="auth-button" href="/sign-in">
+                {"Sign In"}
+              </Link>
+            </div>
           </div>
         </div>
 
-        {/* Contact */}
-        <div className="mt-12">
-          <h3 className="mb-2 text-2xl font-semibold">{"Interested in Learning More?"}</h3>
-          <p className="mx-auto mb-6 max-w-xl text-white/90">
-            {"Connect with our team to discuss partnership opportunities and future access to our platform."}
-          </p>
-          <a
-            href={
-              "mailto:reubenmuwhindi@gmail.com?subject=Africa%20Climate%20%26%20Nature%20Data%20Platform%20-%20Inquiry"
-            }
-            className="inline-block rounded-full bg-gradient-to-br from-green-600 to-green-500 px-6 py-3 font-semibold text-white shadow-[0_4px_15px_rgba(76,175,80,0.3)] transition-all hover:-translate-y-0.5 hover:from-green-500 hover:to-green-600 hover:shadow-[0_8px_25px_rgba(76,175,80,0.4)]"
-          >
-            {"Get in Touch"}
-          </a>
-
-          <div className="mt-6 text-white/90">
-            {/* Optional: link to sign-in for invited testers */}
-            <Link href="/sign-in" className="underline decoration-white/60 underline-offset-4 hover:text-white">
-              {"Have access? Sign in"}
-            </Link>
-          </div>
+        <div className="scroll-indicator" aria-hidden="true">
+          <span style={{ fontSize: "1.5rem" }}>{"↓"}</span>
         </div>
-      </div>
-
-      {/* Scroll indicator */}
-      <div className="pointer-events-auto absolute bottom-8 left-1/2 z-[2] -translate-x-1/2 animate-bounce text-white/80">
-        <span className="text-2xl">{"↓"}</span>
-      </div>
-
-      {/* keyframes */}
-      <style jsx>{`
-        @keyframes float {
-          0%, 100% { transform: translateY(0) rotate(0); }
-          50% { transform: translateY(-20px) rotate(180deg); }
-        }
-      `}</style>
-    </section>
+      </section>
+    </main>
   )
 }

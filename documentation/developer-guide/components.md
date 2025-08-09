@@ -52,7 +52,7 @@ These components handle the rendering of different data visualizations:
 - Handles data transformation between visualization types
 - Provides common controls for all visualizations
 
-\`\`\`tsx
+```tsx
 // Example usage of MultiVisualization
 <MultiVisualization 
   data={visualizationData} 
