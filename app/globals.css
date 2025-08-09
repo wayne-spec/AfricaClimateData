@@ -1,0 +1,422 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 13%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 13%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 13%;
+
+    --primary: 134 67% 33%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 0 0% 96.1%;
+    --secondary-foreground: 0 0% 13%;
+
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 45.9%;
+
+    --accent: 0 76% 54%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 0% 89.8%;
+    --input: 0 0% 89.8%;
+    --ring: 134 67% 33%;
+
+    --radius: 0.5rem;
+
+    --grid-gap: 1.5rem;
+  }
+
+  .dark {
+    --background: 0 0% 13%;
+    --foreground: 0 0% 98%;
+
+    --card: 0 0% 13%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 0 0% 13%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 134 67% 33%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 0 0% 17.5%;
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 0 0% 17.5%;
+    --muted-foreground: 0 0% 65.1%;
+
+    --accent: 0 76% 54%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 0 0% 17.5%;
+    --input: 0 0% 17.5%;
+    --ring: 134 67% 33%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    overflow-x: hidden;
+    font-family: var(--font-lato), system-ui, sans-serif;
+    font-size: 0.95rem;
+  }
+
+  /* Ensure images don't overflow their containers */
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Responsive text sizing */
+  h1 {
+    @apply text-xl md:text-2xl lg:text-3xl;
+  }
+  h2 {
+    @apply text-lg md:text-xl lg:text-2xl;
+  }
+  h3 {
+    @apply text-base md:text-lg lg:text-xl;
+  }
+
+  /* Ensure all content is properly contained */
+  .container {
+    @apply px-4 mx-auto;
+    max-width: 100%;
+  }
+
+  /* Improve table responsiveness */
+  table {
+    @apply w-full;
+  }
+
+  /* Ensure buttons are properly sized on mobile */
+  button,
+  .button {
+    @apply whitespace-nowrap;
+  }
+}
+
+/* Custom scrollbar for better UX */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Ensure dropdowns don't overflow viewport */
+.dropdown-content {
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+/* Ensure charts are responsive */
+.recharts-responsive-container {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Fix for chart text overflow */
+.recharts-text {
+  fill: currentColor;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Fix for legend overflow */
+.recharts-legend-wrapper {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+/* Fix for tooltip overflow */
+.recharts-tooltip-wrapper {
+  max-width: 90vw;
+  overflow: hidden;
+}
+
+/* Responsive chart adjustments */
+@media (max-width: 640px) {
+  .recharts-cartesian-axis-tick-value {
+    font-size: 10px;
+  }
+
+  .recharts-legend-item-text {
+    font-size: 10px;
+  }
+
+  .recharts-tooltip-item-name,
+  .recharts-tooltip-item-value {
+    font-size: 10px;
+  }
+}
+
+/* Ensure visualizations don't overflow */
+.visualization-container {
+  max-width: 100%;
+  overflow: hidden;
+}
+
+/* Ensure key indicators section is responsive */
+.key-indicators-section {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* Add to globals.css */
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+}
+
+.leaflet-popup-content {
+  margin: 8px 12px;
+  line-height: 1.4;
+}
+
+.leaflet-popup-content p {
+  margin: 0;
+}
+
+.custom-div-icon {
+  background: none;
+  border: none;
+}
+
+.marker-cluster-small {
+  background-color: rgba(181, 226, 140, 0.6);
+}
+.marker-cluster-small div {
+  background-color: rgba(110, 204, 57, 0.6);
+}
+
+.marker-cluster-medium {
+  background-color: rgba(241, 211, 87, 0.6);
+}
+.marker-cluster-medium div {
+  background-color: rgba(240, 194, 12, 0.6);
+}
+
+.marker-cluster-large {
+  background-color: rgba(253, 156, 115, 0.6);
+}
+.marker-cluster-large div {
+  background-color: rgba(241, 128, 23, 0.6);
+}
+
+/* Global button style overrides */
+.home-explore-data-section .bg-primary,
+.home-explore-data-section .bg-africa-green,
+.home-explore-data-section button[class*="bg-green"],
+.home-explore-data-section a[class*="bg-green"],
+.dashboard-page .bg-primary,
+.dashboard-page .bg-africa-green,
+.dashboard-page button[class*="bg-green"],
+.dashboard-page a[class*="bg-green"],
+.nature-data-page .bg-primary,
+.nature-data-page .bg-africa-green,
+.nature-data-page button[class*="bg-green"],
+.nature-data-page a[class*="bg-green"] {
+  background-color: rgb(10, 93, 34) !important;
+  border-color: rgb(10, 93, 34) !important;
+}
+
+/* Hover state */
+.home-explore-data-section .bg-primary:hover,
+.home-explore-data-section .bg-africa-green:hover,
+.home-explore-data-section button[class*="bg-green"]:hover,
+.home-explore-data-section a[class*="bg-green"]:hover,
+.dashboard-page .bg-primary:hover,
+.dashboard-page .bg-africa-green:hover,
+.dashboard-page button[class*="bg-green"]:hover,
+.dashboard-page a[class*="bg-green"]:hover,
+.nature-data-page .bg-primary:hover,
+.nature-nature-data-page .bg-africa-green:hover,
+.nature-data-page button[class*="bg-green"]:hover,
+.nature-data-page a[class*="bg-green"]:hover {
+  background-color: rgb(8, 77, 28) !important;
+  border-color: rgb(8, 77, 28) !important;
+}
+
+/* Focus and active states */
+.home-explore-data-section .bg-primary:focus,
+.home-explore-data-section .bg-africa-green:focus,
+.home-explore-data-section button[class*="bg-green"]:focus,
+.home-explore-data-section a[class*="bg-green"]:focus,
+.home-explore-data-section .bg-primary:active,
+.home-explore-data-section .bg-africa-green:active,
+.home-explore-data-section button[class*="bg-green"]:active,
+.home-explore-data-section a[class*="bg-green"]:active,
+.dashboard-page .bg-primary:focus,
+.dashboard-page .bg-africa-green:focus,
+.dashboard-page button[class*="bg-green"]:focus,
+.dashboard-page a[class*="bg-green"]:focus,
+.dashboard-page .bg-primary:active,
+.dashboard-page .bg-africa-green:active,
+.dashboard-page button[class*="bg-green"]:active,
+.dashboard-page a[class*="bg-green"]:active,
+.nature-data-page .bg-primary:focus,
+.nature-data-page .bg-africa-green:focus,
+.nature-data-page button[class*="bg-green"]:focus,
+.nature-data-page a[class*="bg-green"]:focus,
+.nature-data-page .bg-primary:active,
+.nature-data-page .bg-africa-green:active,
+.nature-data-page button[class*="bg-green"]:active,
+.nature-data-page a[class*="bg-green"]:active {
+  background-color: rgb(6, 60, 22) !important;
+  border-color: rgb(6, 60, 22) !important;
+  box-shadow: 0 0 0 2px rgba(10, 93, 34, 0.25) !important;
+}
+
+/* Ensure we also target any hover/focus classes that might be applied */
+.home-explore-data-section .hover\:bg-africa-dark-green:hover,
+.home-explore-data-section .hover\:bg-green-700:hover,
+.home-explore-data-section .hover\:bg-green-800:hover,
+.dashboard-page .hover\:bg-africa-dark-green:hover,
+.dashboard-page .hover\:bg-green-700:hover,
+.dashboard-page .hover\:bg-green-800:hover,
+.nature-data-page .hover\:bg-africa-dark-green:hover,
+.nature-data-page .hover\:bg-green-700:hover,
+.nature-data-page .hover\:bg-green-800:hover {
+  background-color: rgb(8, 77, 28) !important;
+  border-color: rgb(8, 77, 28) !important;
+}
+
+/* Target any focus/active classes */
+.home-explore-data-section .focus\:bg-africa-dark-green:focus,
+.home-explore-data-section .active\:bg-africa-dark-green:active,
+.dashboard-page .focus\:bg-africa-dark-green:focus,
+.dashboard-page .active\:bg-africa-dark-green:active,
+.nature-data-page .focus\:bg-africa-dark-green:focus,
+.nature-data-page .active\:bg-africa-dark-green:active {
+  background-color: rgb(6, 60, 22) !important;
+  border-color: rgb(6, 60, 22) !important;
+}
+
+/* Global text color overrides - replacing blue with green */
+.text-blue-100,
+.hover\:text-blue-100:hover {
+  color: #dcfce7 !important;
+} /* green-100 */
+.text-blue-200,
+.hover\:text-blue-200:hover {
+  color: #bbf7d0 !important;
+} /* green-200 */
+.text-blue-300,
+.hover\:text-blue-300:hover {
+  color: #86efac !important;
+} /* green-300 */
+.text-blue-400,
+.hover\:text-blue-400:hover {
+  color: #4ade80 !important;
+} /* green-400 */
+.text-blue-500,
+.hover\:text-blue-500:hover {
+  color: #22c55e !important;
+} /* green-500 */
+.text-blue-600,
+.hover\:text-blue-600:hover {
+  color: #16a34a !important;
+} /* green-600 */
+.text-blue-700,
+.hover\:text-blue-700:hover {
+  color: #15803d !important;
+} /* green-700 */
+.text-blue-800,
+.hover\:text-blue-800:hover {
+  color: #166534 !important;
+} /* green-800 */
+.text-blue-900,
+.hover\:text-blue-900:hover {
+  color: #14532d !important;
+} /* green-900 */
+.text-blue-950,
+.hover\:text-blue-950:hover {
+  color: #052e16 !important;
+} /* green-950 */
+
+/* Replace any specific blue hex colors with green equivalents */
+.text-\[\#002147\],
+.hover\:text-\[\#002147\]:hover {
+  color: #0a5d22 !important;
+}
+.text-\[\#1d3d63\],
+.hover\:text-\[\#1d3d63\]:hover {
+  color: #166534 !important;
+}
+.text-\[\#1e40af\],
+.hover\:text-\[\#1e40af\]:hover {
+  color: #15803d !important;
+}
+.text-\[\#3b82f6\],
+.hover\:text-\[\#3b82f6\]:hover {
+  color: #22c55e !important;
+}
+.text-\[\#60a5fa\],
+.hover\:text-\[\#60a5fa\]:hover {
+  color: #4ade80 !important;
+}
+.text-\[\#93c5fd\],
+.hover\:text-\[\#93c5fd\]:hover {
+  color: #86efac !important;
+}
+.text-\[\#bfdbfe\],
+.hover\:text-\[\#bfdbfe\]:hover {
+  color: #bbf7d0 !important;
+}
+.text-\[\#dbeafe\],
+.hover\:text-\[\#dbeafe\]:hover {
+  color: #dcfce7 !important;
+}
+
+/* Ensure links and headings with blue text are updated to green */
+a[class*="text-blue"],
+h1[class*="text-blue"],
+h2[class*="text-blue"],
+h3[class*="text-blue"],
+h4[class*="text-blue"],
+h5[class*="text-blue"],
+h6[class*="text-blue"],
+p[class*="text-blue"],
+span[class*="text-blue"],
+div[class*="text-blue"] {
+  color: #15803d !important; /* Default to green-700 for good contrast */
+}
+
+/* Ensure any inline styles with blue colors are overridden */
+[style*="color: blue"],
+[style*="color:#0000FF"],
+[style*="color: #0000FF"],
+[style*="color: rgb(0, 0, 255)"],
+[style*="color: rgba(0, 0, 255,"] {
+  color: #15803d !important;
+}
