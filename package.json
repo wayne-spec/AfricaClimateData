@@ -6,7 +6,8 @@
     "build": "next build",
     "dev": "next dev",
     "lint": "next lint",
-    "start": "next start"
+    "start": "next start",
+    "vercel-build": "pnpm install --no-frozen-lockfile && next build"
   },
   "dependencies": {
     "@clerk/nextjs": "latest",
@@ -75,5 +76,14 @@
     "postcss": "^8.5",
     "tailwindcss": "^3.4.17",
     "typescript": "^5"
+  },
+  "pnpm": {
+    "overrides": {
+      "react": "18.2.0",
+      "react-dom": "18.2.0",
+      "react-leaflet": "4.2.1",
+      "react-leaflet-cluster": "2.1.0",
+      "react-leaflet-heatmap-layer-v3": "3.0.3"
+    }
   }
 }
