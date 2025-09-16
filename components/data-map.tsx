@@ -227,8 +227,6 @@ export default function DataMap({
   useEffect(() => {
     if (typeof window !== "undefined") {
       import("leaflet/dist/leaflet.css")
-      import("react-leaflet-cluster/lib/assets/MarkerCluster.css")
-      import("react-leaflet-cluster/lib/assets/MarkerCluster.Default.css")
       setMapLoaded(true)
     }
   }, [])

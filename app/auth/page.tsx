@@ -15,26 +15,25 @@ export default function AuthPage() {
           padding: 0;
           box-sizing: border-box;
         }
-        body {
-          font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-          line-height: 1.6;
-          color: #333;
-          overflow-x: hidden;
-        }
+        
         .hero-section {
           min-height: 100vh;
           background: linear-gradient(135deg,
               rgba(34, 139, 34, 0.9) 0%,
               rgba(0, 100, 0, 0.8) 50%,
-              rgba(46, 125, 50, 0.9) 100%),
-             url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><pattern id="leaves" x="0" y="0" width="200" height="200" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="30" fill="rgba(255,255,255,0.1)"/><circle cx="150" cy="100" r="25" fill="rgba(255,255,255,0.08)"/><circle cx="100" cy="150" r="20" fill="rgba(255,255,255,0.06)"/></pattern></defs><rect width="100%" height="100%" fill="url(%23leaves)"/></svg>');
+              rgba(46, 125, 50, 0.9) 100%);
           background-size: cover;
           background-attachment: fixed;
           display: flex;
           align-items: center;
           justify-content: center;
           position: relative;
+          font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+          line-height: 1.6;
+          color: #333;
+          overflow-x: hidden;
         }
+        
         .floating-elements {
           position: absolute;
           width: 100%;
@@ -42,12 +41,14 @@ export default function AuthPage() {
           overflow: hidden;
           z-index: 1;
         }
+        
         .floating-element {
           position: absolute;
           background: rgba(255, 255, 255, 0.1);
           border-radius: 50%;
           animation: float 6s ease-in-out infinite;
         }
+        
         .floating-element:nth-child(1) {
           width: 80px;
           height: 80px;
@@ -55,6 +56,7 @@ export default function AuthPage() {
           left: 10%;
           animation-delay: 0s;
         }
+        
         .floating-element:nth-child(2) {
           width: 60px;
           height: 60px;
@@ -62,6 +64,7 @@ export default function AuthPage() {
           right: 15%;
           animation-delay: 2s;
         }
+        
         .floating-element:nth-child(3) {
           width: 100px;
           height: 100px;
@@ -69,10 +72,12 @@ export default function AuthPage() {
           left: 20%;
           animation-delay: 4s;
         }
+        
         @keyframes float {
           0%, 100% { transform: translateY(0px) rotate(0deg); }
           50% { transform: translateY(-20px) rotate(180deg); }
         }
+        
         .container {
           max-width: 1200px;
           margin: 0 auto;
@@ -81,6 +86,7 @@ export default function AuthPage() {
           position: relative;
           z-index: 2;
         }
+        
         .logo {
           font-size: 3rem;
           font-weight: 800;
@@ -89,6 +95,7 @@ export default function AuthPage() {
           text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
           animation: slideInFromTop 1s ease-out;
         }
+        
         .tagline {
           font-size: 1.5rem;
           color: rgba(255, 255, 255, 0.9);
@@ -96,6 +103,7 @@ export default function AuthPage() {
           font-weight: 300;
           animation: slideInFromLeft 1s ease-out 0.3s both;
         }
+        
         .main-message {
           background: rgba(255, 255, 255, 0.95);
           backdrop-filter: blur(10px);
@@ -107,6 +115,7 @@ export default function AuthPage() {
           animation: slideInFromBottom 1s ease-out 0.6s both;
           border: 1px solid rgba(255, 255, 255, 0.2);
         }
+        
         .thank-you {
           font-size: 2.5rem;
           font-weight: 700;
@@ -117,12 +126,14 @@ export default function AuthPage() {
           -webkit-text-fill-color: transparent;
           background-clip: text;
         }
+        
         .message-text {
           font-size: 1.2rem;
           color: #555;
           line-height: 1.8;
           margin-bottom: 2rem;
         }
+        
         .demo-status {
           background: linear-gradient(135deg, #ff9800, #f57c00);
           color: white;
@@ -132,12 +143,15 @@ export default function AuthPage() {
           display: inline-block;
           box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3);
           animation: pulse 2s infinite;
+          margin-bottom: 1rem;
         }
+        
         @keyframes pulse {
           0% { transform: scale(1); }
           50% { transform: scale(1.05); }
           100% { transform: scale(1); }
         }
+        
         .features-preview {
           display: grid;
           grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -145,6 +159,7 @@ export default function AuthPage() {
           margin: 3rem 0;
           animation: fadeInUp 1s ease-out 0.9s both;
         }
+        
         .feature-card {
           background: rgba(255, 255, 255, 0.1);
           padding: 2rem;
@@ -154,42 +169,50 @@ export default function AuthPage() {
           transition: all 0.3s ease;
           cursor: pointer;
         }
+        
         .feature-card:hover {
           transform: translateY(-10px);
           box-shadow: 0 20px 40px rgba(0,0,0,0.2);
           background: rgba(255, 255, 255, 0.2);
         }
+        
         .feature-icon {
           font-size: 3rem;
           margin-bottom: 1rem;
           display: block;
         }
+        
         .feature-title {
           font-size: 1.3rem;
           font-weight: 600;
           color: white;
           margin-bottom: 0.5rem;
         }
+        
         .feature-desc {
           color: rgba(255, 255, 255, 0.8);
           font-size: 0.95rem;
         }
+        
         .contact-section {
           margin-top: 4rem;
           animation: fadeInUp 1s ease-out 1.2s both;
         }
+        
         .contact-title {
           font-size: 2rem;
           color: white;
           margin-bottom: 1rem;
           font-weight: 600;
         }
+        
         .contact-text {
           color: rgba(255, 255, 255, 0.9);
           font-size: 1.1rem;
           margin-bottom: 2rem;
         }
-        .contact-button {
+        
+        .contact-button, .signin-button {
           background: linear-gradient(135deg, #4caf50, #45a049);
           color: white;
           padding: 15px 30px;
@@ -202,31 +225,23 @@ export default function AuthPage() {
           text-decoration: none;
           display: inline-block;
           box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
-          margin-right: 1rem;
+          margin: 0 10px;
         }
-        .contact-button:hover {
-          transform: translateY(-3px);
-          box-shadow: 0 8px 25px rgba(76, 175, 80, 0.4);
-          background: linear-gradient(135deg, #45a049, #4caf50);
-        }
+        
         .signin-button {
           background: linear-gradient(135deg, #2196f3, #1976d2);
-          color: white;
-          padding: 15px 30px;
-          border: none;
-          border-radius: 50px;
-          font-size: 1.1rem;
-          font-weight: 600;
-          cursor: pointer;
-          transition: all 0.3s ease;
-          display: inline-block;
           box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
         }
-        .signin-button:hover {
+        
+        .contact-button:hover, .signin-button:hover {
           transform: translateY(-3px);
-          box-shadow: 0 8px 25px rgba(33, 150, 243, 0.4);
-          background: linear-gradient(135deg, #1976d2, #2196f3);
+          box-shadow: 0 8px 25px rgba(76, 175, 80, 0.4);
         }
+        
+        .signin-button:hover {
+          box-shadow: 0 8px 25px rgba(33, 150, 243, 0.4);
+        }
+        
         @keyframes slideInFromTop {
           from {
             transform: translateY(-100px);
@@ -237,6 +252,7 @@ export default function AuthPage() {
             opacity: 1;
           }
         }
+        
         @keyframes slideInFromLeft {
           from {
             transform: translateX(-100px);
@@ -247,6 +263,7 @@ export default function AuthPage() {
             opacity: 1;
           }
         }
+        
         @keyframes slideInFromBottom {
           from {
             transform: translateY(100px);
@@ -257,6 +274,7 @@ export default function AuthPage() {
             opacity: 1;
           }
         }
+        
         @keyframes fadeInUp {
           from {
             transform: translateY(50px);
@@ -267,25 +285,31 @@ export default function AuthPage() {
             opacity: 1;
           }
         }
+        
         @media (max-width: 768px) {
           .logo {
             font-size: 2rem;
           }
+          
           .tagline {
             font-size: 1.2rem;
           }
+          
           .main-message {
             padding: 2rem;
             margin: 1rem;
           }
+          
           .thank-you {
             font-size: 2rem;
           }
+          
           .features-preview {
             grid-template-columns: 1fr;
             gap: 1rem;
           }
         }
+        
         .scroll-indicator {
           position: absolute;
           bottom: 30px;
@@ -294,6 +318,7 @@ export default function AuthPage() {
           color: rgba(255, 255, 255, 0.8);
           animation: bounce 2s infinite;
         }
+        
         @keyframes bounce {
           0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
           40% { transform: translateX(-50%) translateY(-10px); }
@@ -378,6 +403,7 @@ export default function AuthPage() {
             >
               Get in Touch
             </a>
+
             <Dialog open={showSignIn} onOpenChange={setShowSignIn}>
               <DialogTrigger asChild>
                 <button className="signin-button">Sign In</button>
@@ -386,7 +412,7 @@ export default function AuthPage() {
                 <SignIn
                   appearance={{
                     elements: {
-                      formButtonPrimary: "bg-[#0A5D22] hover:bg-[#0A5D22]/90",
+                      formButtonPrimary: "bg-green-600 hover:bg-green-700",
                       card: "shadow-none",
                     },
                   }}

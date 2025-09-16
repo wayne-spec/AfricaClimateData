@@ -1,148 +1,150 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
 import Image from "next/image"
-import TopicsDropdown from "./topics-dropdown"
-import DropdownMenu from "./dropdown-menu"
-import MobileMenu from "./mobile-menu"
-import { usePathname } from "next/navigation"
-import { cn } from "@/lib/utils"
+import { Menu, X, ChevronDown } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { UserButton, useUser } from "@clerk/nextjs"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 
-export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false)
-  const pathname = usePathname()
+export function Navbar() {
+  const [isOpen, setIsOpen] = useState(false)
+  const { isSignedIn } = useUser()
 
-  // Track scroll position to add shadow on scroll
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 10)
-    }
-
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
-
-  // Define dropdown menu items
-  const resourcesItems = [
-    { label: "Teaching Hub", href: "/resources/teaching" },
-    { label: "Data Explorer", href: "/resources/data-explorer" },
-    { label: "Research Papers", href: "/resources/papers" },
-    { label: "Charts & Maps", href: "/resources/charts" },
-    { label: "API Documentation", href: "/resources/api" },
-    { label: "Dashboards", href: "/dashboards" },
-  ]
-
-  const aboutItems = [
-    { label: "Our Mission", href: "/mission" },
-    { label: "Our Team", href: "/mission/team" },
-    { label: "Funding", href: "/mission/funding" },
-    { label: "Careers", href: "/mission/careers" },
-    { label: "Contact", href: "/mission/contact" },
-    { label: "FAQs", href: "/mission/faq" },
-  ]
-
-  // Check if a link is active
-  const isActive = (path: string) => {
-    if (path === "/") return pathname === "/"
-    return pathname.startsWith(path)
-  }
+  const toggleMenu = () => setIsOpen(!isOpen)
 
   return (
-    <header
-      className={cn(
-        "sticky top-0 z-50 bg-[#0A5D22] text-white border-b-4 border-[#ce261e] transition-shadow duration-300",
-        scrolled ? "shadow-md" : "",
-      )}
-    >
-      <div className="container mx-auto px-4 py-3">
-        <div className="flex items-center justify-between">
-          <Link href="/" className="flex items-center">
-            <div className="w-10 h-10 mr-2 relative sm:w-12 sm:h-12 sm:mr-3">
+    <nav className="bg-white shadow-sm border-b">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between h-16">
+          <div className="flex items-center">
+            <Link href="/" className="flex-shrink-0 flex items-center">
               <Image
                 src="/images/logo.png"
-                alt="Africa Climate Data Platform Logo"
-                fill
-                className="object-contain"
-                priority
+                alt="Africa Climate Data Platform"
+                width={40}
+                height={40}
+                className="h-8 w-auto"
               />
-            </div>
-            <div className="text-base font-bold sm:text-xl">
-              <span className="block leading-tight">Africa Climate</span>
-              <span className="block leading-tight">Data Platform</span>
-            </div>
-          </Link>
-
-          {/* Mobile menu button */}
-          <div className="md:hidden">
-            <MobileMenu />
+              <span className="ml-2 text-xl font-bold text-gray-900">Africa Climate Data</span>
+            </Link>
           </div>
 
-          {/* Desktop navigation */}
-          <nav className="hidden md:flex md:items-center space-x-6">
-            <TopicsDropdown />
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center space-x-8">
+            <Link href="/" className="text-gray-700 hover:text-green-600 px-3 py-2 text-sm font-medium">
+              Home
+            </Link>
 
-            <Link
-              href="/data"
-              className={cn(
-                "text-sm hover:text-green-200 transition-colors",
-                isActive("/data") ? "text-green-200 font-medium" : "",
-              )}
-            >
+            <DropdownMenu>
+              <DropdownMenuTrigger className="flex items-center text-gray-700 hover:text-green-600 px-3 py-2 text-sm font-medium">
+                Dashboards <ChevronDown className="ml-1 h-4 w-4" />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem asChild>
+                  <Link href="/dashboards">All Dashboards</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/dashboards/climate-finance">Climate Finance</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/dashboards/agriculture">Agriculture</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/dashboards/energy-use">Energy Use</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/dashboards/wildlife">Wildlife</Link>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            <Link href="/data" className="text-gray-700 hover:text-green-600 px-3 py-2 text-sm font-medium">
               Data
             </Link>
 
-            <Link
-              href="/dashboards"
-              className={cn(
-                "text-sm hover:text-green-200 transition-colors",
-                isActive("/dashboards") ? "text-green-200 font-medium" : "",
-              )}
-            >
-              Dashboards
-            </Link>
-
-            <Link
-              href="/nature-data"
-              className={cn(
-                "text-sm hover:text-green-200 transition-colors",
-                isActive("/nature-data") ? "text-green-200 font-medium" : "",
-              )}
-            >
-              Nature Data
-            </Link>
-
-            <Link
-              href="/insights"
-              className={cn(
-                "text-sm hover:text-green-200 transition-colors",
-                isActive("/insights") ? "text-green-200 font-medium" : "",
-              )}
-            >
+            <Link href="/insights" className="text-gray-700 hover:text-green-600 px-3 py-2 text-sm font-medium">
               Insights
             </Link>
 
-            <DropdownMenu label="Resources" items={resourcesItems} />
-            <DropdownMenu label="About" items={aboutItems} />
+            <Link href="/mission" className="text-gray-700 hover:text-green-600 px-3 py-2 text-sm font-medium">
+              Mission
+            </Link>
 
-            <div className="flex space-x-2">
-              <Button
-                variant="outline"
-                size="sm"
-                className="text-white border-white hover:bg-white hover:text-[#0A5D22] bg-transparent"
-              >
-                Subscribe
-              </Button>
-              <Button size="sm" className="bg-africa-red hover:bg-red-700 text-white">
-                Donate
-              </Button>
-            </div>
-          </nav>
+            {isSignedIn && (
+              <UserButton
+                appearance={{
+                  elements: {
+                    avatarBox: "h-8 w-8",
+                  },
+                }}
+              />
+            )}
+          </div>
+
+          {/* Mobile menu button */}
+          <div className="md:hidden flex items-center">
+            {isSignedIn && (
+              <div className="mr-2">
+                <UserButton
+                  appearance={{
+                    elements: {
+                      avatarBox: "h-8 w-8",
+                    },
+                  }}
+                />
+              </div>
+            )}
+            <Button variant="ghost" size="icon" onClick={toggleMenu} className="text-gray-700">
+              {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </Button>
+          </div>
         </div>
+
+        {/* Mobile Navigation */}
+        {isOpen && (
+          <div className="md:hidden">
+            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t">
+              <Link
+                href="/"
+                className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-green-600"
+                onClick={() => setIsOpen(false)}
+              >
+                Home
+              </Link>
+              <Link
+                href="/dashboards"
+                className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-green-600"
+                onClick={() => setIsOpen(false)}
+              >
+                Dashboards
+              </Link>
+              <Link
+                href="/data"
+                className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-green-600"
+                onClick={() => setIsOpen(false)}
+              >
+                Data
+              </Link>
+              <Link
+                href="/insights"
+                className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-green-600"
+                onClick={() => setIsOpen(false)}
+              >
+                Insights
+              </Link>
+              <Link
+                href="/mission"
+                className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-green-600"
+                onClick={() => setIsOpen(false)}
+              >
+                Mission
+              </Link>
+            </div>
+          </div>
+        )}
       </div>
-    </header>
+    </nav>
   )
 }
-
-export { Navbar }

@@ -1,184 +1,114 @@
 import Link from "next/link"
 import Image from "next/image"
-import { Twitter, Instagram, Facebook, Linkedin, Github } from "lucide-react"
+import { Mail, MapPin } from "lucide-react"
 
-export default function Footer() {
+export function Footer() {
   return (
-    <footer className="bg-[#0A5D22] text-white py-12">
-      <div className="container mx-auto px-4">
-        <div className="md:flex justify-between">
-          {/* Left Section: Logo + Text */}
-          <div className="w-full md:w-1/3">
-            <p className="mb-4">
-              Africa Climate Nature Data Platform is a Data platform that focuses on Climate solutions for Africa. ,
-              unless stated otherwise. Tools and software we develop are open source under the{" "}
-              <span className="font-bold">MIT license</span>.
+    <footer className="bg-gray-900 text-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          {/* Logo and Description */}
+          <div className="col-span-1 md:col-span-2">
+            <div className="flex items-center mb-4">
+              <Image
+                src="/images/logo.png"
+                alt="Africa Climate Data Platform"
+                width={40}
+                height={40}
+                className="h-8 w-auto"
+              />
+              <span className="ml-2 text-xl font-bold">Africa Climate Data Platform</span>
+            </div>
+            <p className="text-gray-300 mb-4 max-w-md">
+              Bridging climate science with data analytics to drive evidence-based conservation and climate adaptation
+              strategies across Africa.
             </p>
-            <p className="mb-6">
-              Third-party materials, including some charts and data, are subject to third-party licenses. See our{" "}
-              <Link href="/faqs" className="underline">
-                FAQs
-              </Link>{" "}
-              for more details.
-            </p>
-
-            {/* Logos */}
-            <div className="flex space-x-4">
-              <Image
-                src="/placeholder.svg?height=50&width=50"
-                alt="Logo 1"
-                width={50}
-                height={50}
-                className="bg-white p-1"
-              />
-              <Image
-                src="/placeholder.svg?height=50&width=50"
-                alt="Logo 2"
-                width={50}
-                height={50}
-                className="bg-white p-1"
-              />
-              <Image
-                src="/placeholder.svg?height=50&width=50"
-                alt="Logo 3"
-                width={50}
-                height={50}
-                className="bg-white p-1"
-              />
+            <div className="space-y-2">
+              <div className="flex items-center text-gray-300">
+                <Mail className="h-4 w-4 mr-2" />
+                <span>reubenmuwhindi@gmail.com</span>
+              </div>
+              <div className="flex items-center text-gray-300">
+                <MapPin className="h-4 w-4 mr-2" />
+                <span>Nairobi, Kenya</span>
+              </div>
             </div>
           </div>
 
-          {/* Right Section: Links */}
-          <div className="w-full md:w-2/3 grid grid-cols-2 md:grid-cols-4 gap-8 mt-8 md:mt-0">
-            <div>
-              <h4 className="font-bold text-lg mb-4 uppercase">Explore</h4>
-              <ul className="space-y-2">
-                <li>
-                  <Link href="/topics" className="hover:text-green-200">
-                    Topics
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/data" className="hover:text-green-200">
-                    Data
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/insights" className="hover:text-green-200">
-                    Insights
-                  </Link>
-                </li>
-              </ul>
+          {/* Quick Links */}
+          <div>
+            <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
+            <ul className="space-y-2">
+              <li>
+                <Link href="/" className="text-gray-300 hover:text-white transition-colors">
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link href="/dashboards" className="text-gray-300 hover:text-white transition-colors">
+                  Dashboards
+                </Link>
+              </li>
+              <li>
+                <Link href="/data" className="text-gray-300 hover:text-white transition-colors">
+                  Data
+                </Link>
+              </li>
+              <li>
+                <Link href="/insights" className="text-gray-300 hover:text-white transition-colors">
+                  Insights
+                </Link>
+              </li>
+              <li>
+                <Link href="/mission" className="text-gray-300 hover:text-white transition-colors">
+                  Mission
+                </Link>
+              </li>
+            </ul>
+          </div>
 
-              <h4 className="font-bold text-lg mt-6 mb-4 uppercase">Resources</h4>
-              <ul className="space-y-2">
-                <li>
-                  <Link href="/articles" className="hover:text-green-200">
-                    Latest Articles
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/sdg-tracker" className="hover:text-green-200">
-                    SDG Tracker
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/teaching" className="hover:text-green-200">
-                    Teaching Materials
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="font-bold text-lg mb-4 uppercase">About</h4>
-              <ul className="space-y-2">
-                <li>
-                  <Link href="/about" className="hover:text-green-200">
-                    About Us
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/organization" className="hover:text-green-200">
-                    Organization
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/funding" className="hover:text-green-200">
-                    Funding
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/team" className="hover:text-green-200">
-                    Team
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/jobs" className="hover:text-green-200">
-                    Jobs
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/faqs" className="hover:text-green-200">
-                    FAQs
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="font-bold text-lg mb-4 uppercase">RSS Feeds</h4>
-              <ul className="space-y-2">
-                <li>
-                  <Link href="/research-and-writing" className="hover:text-green-200">
-                    Research & Writing
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/daily-data-insights" className="hover:text-green-200">
-                    Daily Data Insights
-                  </Link>
-                </li>
-              </ul>
-            </div>
+          {/* Resources */}
+          <div>
+            <h3 className="text-lg font-semibold mb-4">Resources</h3>
+            <ul className="space-y-2">
+              <li>
+                <Link href="/topics" className="text-gray-300 hover:text-white transition-colors">
+                  Topics
+                </Link>
+              </li>
+              <li>
+                <Link href="/articles" className="text-gray-300 hover:text-white transition-colors">
+                  Articles
+                </Link>
+              </li>
+              <li>
+                <Link href="/visualizations" className="text-gray-300 hover:text-white transition-colors">
+                  Visualizations
+                </Link>
+              </li>
+              <li>
+                <Link href="/nature-data" className="text-gray-300 hover:text-white transition-colors">
+                  Nature Data
+                </Link>
+              </li>
+            </ul>
           </div>
         </div>
 
-        {/* Footer Bottom */}
-        <div className="mt-12 flex flex-col md:flex-row justify-between items-center">
-          <div className="flex space-x-4 mb-4 md:mb-0">
-            <h4 className="font-bold uppercase mr-2">Follow Us</h4>
-            <Link href="https://twitter.com" className="hover:text-green-200">
-              <Twitter size={20} />
-            </Link>
-            <Link href="https://instagram.com" className="hover:text-green-200">
-              <Instagram size={20} />
-            </Link>
-            <Link href="https://facebook.com" className="hover:text-green-200">
-              <Facebook size={20} />
-            </Link>
-            <Link href="https://linkedin.com" className="hover:text-green-200">
-              <Linkedin size={20} />
-            </Link>
-            <Link href="https://github.com" className="hover:text-green-200">
-              <Github size={20} />
-            </Link>
-          </div>
-          <div className="flex space-x-4">
-            <Link href="/privacy" className="hover:text-green-200">
-              Privacy policy
-            </Link>
-            <Link href="/legal" className="hover:text-green-200">
-              Legal disclaimer
-            </Link>
-            <Link href="/license" className="hover:text-green-200">
-              Grapher license
-            </Link>
+        <div className="border-t border-gray-800 mt-8 pt-8">
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <p className="text-gray-400 text-sm">© 2024 Africa Climate Data Platform. All rights reserved.</p>
+            <div className="flex space-x-6 mt-4 md:mt-0">
+              <Link href="/privacy" className="text-gray-400 hover:text-white text-sm transition-colors">
+                Privacy Policy
+              </Link>
+              <Link href="/terms" className="text-gray-400 hover:text-white text-sm transition-colors">
+                Terms of Service
+              </Link>
+            </div>
           </div>
         </div>
       </div>
     </footer>
   )
 }
-
-export { Footer }
