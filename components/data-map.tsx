@@ -1,11 +1,14 @@
 "use client"
 
 import { useState, useEffect, useRef, useMemo } from "react"
-import dynamic from "next/dynamic"
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Download, Maximize2, Info, FileText, Layers, Filter } from "lucide-react"
+import { downloadChartAsCSV } from "@/lib/download-utils"
+import { exportVisualization } from "@/lib/export-utils"
+import VisualizationLogo from "./visualization-logo"
+import TimeLapseControl from "./time-lapse-control"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
@@ -14,12 +17,7 @@ import { Slider } from "@/components/ui/slider"
 import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-
-import { downloadChartAsCSV } from "@/lib/download-utils"
-import { exportVisualization } from "@/lib/export-utils"
-
-import VisualizationLogo from "./visualization-logo"
-import TimeLapseControl from "./time-lapse-control"
+import dynamic from "next/dynamic"
 
 // Dynamically import Leaflet components to avoid SSR issues
 const MapContainer = dynamic(() => import("react-leaflet").then((mod) => mod.MapContainer), { ssr: false })
@@ -28,31 +26,34 @@ const GeoJSON = dynamic(() => import("react-leaflet").then((mod) => mod.GeoJSON)
 const ZoomControl = dynamic(() => import("react-leaflet").then((mod) => mod.ZoomControl), { ssr: false })
 const Marker = dynamic(() => import("react-leaflet").then((mod) => mod.Marker), { ssr: false })
 const Popup = dynamic(() => import("react-leaflet").then((mod) => mod.Popup), { ssr: false })
-const MarkerClusterGroup = dynamic(() => import("react-leaflet-cluster").then((mod) => mod.default), { ssr: false })
+const CircleMarker = dynamic(() => import("react-leaflet").then((mod) => mod.CircleMarker), { ssr: false })
+const LayersControl = dynamic(() => import("react-leaflet").then((mod) => mod.LayersControl), { ssr: false })
 const HeatmapLayer = dynamic(() => import("react-leaflet-heatmap-layer-v3").then((mod) => mod.HeatmapLayer), {
   ssr: false,
 })
+const MarkerClusterGroup = dynamic(() => import("react-leaflet-cluster").then((mod) => mod.default), { ssr: false })
 
-// Import Leaflet only on the client (for divIcon)
-const L: any = typeof window !== "undefined" ? require("leaflet") : null
+// Import Leaflet icon
+const L = typeof window !== "undefined" ? require("leaflet") : null
 
-type VisualizationType = "choropleth" | "points" | "heatmap" | "clusters"
-
-export interface DataMapProps {
-  data: Array<{ id: string; name: string; value: number }>
+interface DataMapProps {
+  data: any[]
   title: string
   description: string
   id: string
   showControls?: boolean
   timeSeriesData?: {
-    [year: string]: Array<{ id: string; name: string; value: number }>
+    [year: string]: any[]
   }
   insights?: string
   geoJsonData?: any
   mapCenter?: [number, number]
   mapZoom?: number
-  pointData?: Array<{ id: string; name: string; value: number; lat: number; lng: number }>
+  pointData?: any[]
 }
+
+// Visualization types
+type VisualizationType = "choropleth" | "points" | "heatmap" | "clusters"
 
 export default function DataMap({
   data,
@@ -63,8 +64,8 @@ export default function DataMap({
   timeSeriesData,
   insights,
   geoJsonData,
-  mapCenter = [0, 20],
-  mapZoom = 3,
+  mapCenter = [0, 20], // Default to center of Africa
+  mapZoom = 3, // Default zoom level
   pointData,
 }: DataMapProps) {
   const [showInfo, setShowInfo] = useState(false)
@@ -77,66 +78,84 @@ export default function DataMap({
   const [showLegend, setShowLegend] = useState(true)
   const [pointRadius, setPointRadius] = useState(5)
   const [heatIntensity, setHeatIntensity] = useState(0.5)
+  const [selectedFilters, setSelectedFilters] = useState<string[]>([])
   const [mapTileType, setMapTileType] = useState<"standard" | "satellite" | "terrain">("standard")
   const [showLabels, setShowLabels] = useState(true)
 
-  // Time series handling
+  // Time series data handling
   const hasTimeSeries = timeSeriesData && Object.keys(timeSeriesData).length > 0
   const timePoints = hasTimeSeries ? Object.keys(timeSeriesData || {}) : []
   const currentTimePoint = hasTimeSeries ? timePoints[currentTimeIndex] : null
   const currentData = hasTimeSeries && currentTimePoint ? timeSeriesData![currentTimePoint] : data
 
-  // Basic stats for color scale
+  // Find min and max values for color scale
   const values = currentData.map((item) => item.value)
   const minValue = Math.min(...values)
   const maxValue = Math.max(...values)
 
+  // Get color based on value
   const getColor = (value: number) => {
-    // Green -> Red gradient
-    const ratio = maxValue === minValue ? 0 : (value - minValue) / (maxValue - minValue)
+    // Simple green to red gradient
+    const ratio = (value - minValue) / (maxValue - minValue)
     const r = Math.floor(255 * ratio)
     const g = Math.floor(255 * (1 - ratio))
     const b = 0
     return `rgb(${r}, ${g}, ${b})`
   }
 
-  // Generate fallback point data if not provided
+  // Generate point data if not provided
   const generatedPointData = useMemo(() => {
     if (pointData) return pointData
+
+    // Generate sample point data based on country centroids
     return currentData.map((country) => {
-      const lat = Math.random() * 35 - 15 // -15 to 20
-      const lng = Math.random() * 50 - 10 // -10 to 40
-      return { id: country.id, name: country.name, value: country.value, lat, lng }
+      // Get country centroid (this would come from your GeoJSON in a real implementation)
+      // For now, we'll use random points within Africa
+      const lat = Math.random() * 35 - 15 // Roughly -15 to 20 degrees latitude
+      const lng = Math.random() * 50 - 10 // Roughly -10 to 40 degrees longitude
+
+      return {
+        id: country.id,
+        name: country.name,
+        value: country.value,
+        lat,
+        lng,
+      }
     })
   }, [currentData, pointData])
 
+  // Prepare data for heatmap
   const heatmapData = useMemo(() => {
-    const denom = maxValue === minValue ? 1 : maxValue - minValue
     return generatedPointData.map((point) => ({
       lat: point.lat,
       lng: point.lng,
-      intensity: ((point.value - minValue) / denom) * heatIntensity * 2,
+      intensity: ((point.value - minValue) / (maxValue - minValue)) * heatIntensity * 2,
     }))
   }, [generatedPointData, minValue, maxValue, heatIntensity])
 
-  const handleTimeChange = (index: number) => setCurrentTimeIndex(index)
+  // Handle time change
+  const handleTimeChange = (index: number) => {
+    setCurrentTimeIndex(index)
+  }
 
+  // Handle download as CSV
   const handleDownloadCSV = () => {
     downloadChartAsCSV({ id, title, description, data: currentData, type: "map" })
   }
 
+  // Handle export
   const handleExport = async (type: "png" | "svg" | "pdf") => {
     try {
       setIsExporting(true)
       await exportVisualization(`${id}-container`, `${title.replace(/\s+/g, "_")}`, type)
-    } catch (err) {
-      console.error(`Error exporting as ${type}:`, err)
+    } catch (error) {
+      console.error(`Error exporting as ${type}:`, error)
     } finally {
       setIsExporting(false)
     }
   }
 
-  // GeoJSON styling and events
+  // Style function for GeoJSON features
   const styleFeature = (feature: any) => {
     const countryData = currentData.find((d) => d.id === feature.properties.ISO_A3)
     return {
@@ -149,10 +168,16 @@ export default function DataMap({
     }
   }
 
+  // Handle feature hover events
   const highlightFeature = (e: any) => {
     const layer = e.target
-    layer.setStyle({ weight: 2, color: "#666", dashArray: "", fillOpacity: 0.9 })
-    if (layer.bringToFront) layer.bringToFront()
+    layer.setStyle({
+      weight: 2,
+      color: "#666",
+      dashArray: "",
+      fillOpacity: 0.9,
+    })
+    layer.bringToFront()
   }
 
   const resetHighlight = (e: any) => {
@@ -160,8 +185,10 @@ export default function DataMap({
     layer.setStyle(styleFeature(layer.feature))
   }
 
+  // Add popup and hover effects to each feature
   const onEachFeature = (feature: any, layer: any) => {
     const countryData = currentData.find((d) => d.id === feature.properties.ISO_A3)
+
     if (countryData) {
       layer.bindPopup(`
         <strong>${feature.properties.NAME}</strong><br/>
@@ -170,24 +197,28 @@ export default function DataMap({
     } else {
       layer.bindPopup(`<strong>${feature.properties.NAME}</strong><br/>No data available`)
     }
-    layer.on({ mouseover: highlightFeature, mouseout: resetHighlight })
+
+    layer.on({
+      mouseover: highlightFeature,
+      mouseout: resetHighlight,
+    })
   }
 
-  // Marker icon using a divIcon (no external PNGs)
+  // Custom icon for markers
   const getMarkerIcon = (value: number) => {
     if (!L) return null
-    const size = pointRadius * 2
+
     return L.divIcon({
       html: `<div style="
         background-color: ${getColor(value)};
-        width: ${size}px;
-        height: ${size}px;
+        width: ${pointRadius * 2}px;
+        height: ${pointRadius * 2}px;
         border-radius: 50%;
         border: 1px solid white;
-        opacity: 0.85;
+        opacity: 0.8;
       "></div>`,
       className: "custom-div-icon",
-      iconSize: [size, size],
+      iconSize: [pointRadius * 2, pointRadius * 2],
       iconAnchor: [pointRadius, pointRadius],
     })
   }
@@ -202,6 +233,7 @@ export default function DataMap({
     }
   }, [])
 
+  // Get tile layer URL based on selected type
   const getTileLayerUrl = () => {
     switch (mapTileType) {
       case "satellite":
@@ -213,6 +245,7 @@ export default function DataMap({
     }
   }
 
+  // Get tile layer attribution
   const getTileLayerAttribution = () => {
     switch (mapTileType) {
       case "satellite":
@@ -234,13 +267,12 @@ export default function DataMap({
             <div className="text-sm font-medium mt-1">Year: {currentTimePoint}</div>
           )}
         </div>
-
         {showControls && (
           <div className="flex space-x-2">
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Button variant="outline" size="icon" onClick={() => setShowInfo((v) => !v)} aria-label="Info">
+                  <Button variant="outline" size="icon" onClick={() => setShowInfo(!showInfo)}>
                     <Info className="h-4 w-4" />
                   </Button>
                 </TooltipTrigger>
@@ -253,12 +285,7 @@ export default function DataMap({
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    onClick={() => setShowInsights((v) => !v)}
-                    aria-label="Insights"
-                  >
+                  <Button variant="outline" size="icon" onClick={() => setShowInsights(!showInsights)}>
                     <FileText className="h-4 w-4" />
                   </Button>
                 </TooltipTrigger>
@@ -273,7 +300,7 @@ export default function DataMap({
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <DropdownMenuTrigger asChild>
-                      <Button variant="outline" size="icon" disabled={isExporting} aria-label="Export">
+                      <Button variant="outline" size="icon" disabled={isExporting}>
                         <Download className="h-4 w-4" />
                       </Button>
                     </DropdownMenuTrigger>
@@ -296,7 +323,7 @@ export default function DataMap({
                 <TooltipTrigger asChild>
                   <Popover>
                     <PopoverTrigger asChild>
-                      <Button variant="outline" size="icon" aria-label="Map settings">
+                      <Button variant="outline" size="icon">
                         <Layers className="h-4 w-4" />
                       </Button>
                     </PopoverTrigger>
@@ -392,7 +419,7 @@ export default function DataMap({
                 <TooltipTrigger asChild>
                   <Popover>
                     <PopoverTrigger asChild>
-                      <Button variant="outline" size="icon" aria-label="Filter data">
+                      <Button variant="outline" size="icon">
                         <Filter className="h-4 w-4" />
                       </Button>
                     </PopoverTrigger>
@@ -407,7 +434,7 @@ export default function DataMap({
                               defaultValue={[minValue, maxValue]}
                               min={minValue}
                               max={maxValue}
-                              step={Math.max(1, (maxValue - minValue) / 100)}
+                              step={(maxValue - minValue) / 100}
                               className="flex-1"
                             />
                             <span className="text-xs">{maxValue}</span>
@@ -426,7 +453,7 @@ export default function DataMap({
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Button variant="outline" size="icon" aria-label="Fullscreen">
+                  <Button variant="outline" size="icon">
                     <Maximize2 className="h-4 w-4" />
                   </Button>
                 </TooltipTrigger>
@@ -438,7 +465,6 @@ export default function DataMap({
           </div>
         )}
       </CardHeader>
-
       <CardContent>
         {showInfo && (
           <div className="mb-4 p-3 bg-muted rounded-md text-sm">
@@ -468,7 +494,8 @@ export default function DataMap({
 
                 {/* Points Layer */}
                 {visualizationType === "points" &&
-                  generatedPointData?.map((point) => (
+                  generatedPointData &&
+                  generatedPointData.map((point) => (
                     <Marker key={point.id} position={[point.lat, point.lng]} icon={getMarkerIcon(point.value)}>
                       <Popup>
                         <strong>{point.name}</strong>
@@ -482,9 +509,9 @@ export default function DataMap({
                 {visualizationType === "heatmap" && heatmapData && (
                   <HeatmapLayer
                     points={heatmapData}
-                    longitudeExtractor={(m: any) => m.lng}
-                    latitudeExtractor={(m: any) => m.lat}
-                    intensityExtractor={(m: any) => m.intensity}
+                    longitudeExtractor={(m) => m.lng}
+                    latitudeExtractor={(m) => m.lat}
+                    intensityExtractor={(m) => m.intensity}
                     radius={20}
                     max={1.0}
                     minOpacity={0.1}
@@ -548,7 +575,6 @@ export default function DataMap({
           </div>
         )}
       </CardContent>
-
       <CardFooter className="text-sm text-gray-500 border-t pt-4 flex-col items-start">
         <Tabs defaultValue="about" className="w-full">
           <TabsList className="mb-2 grid grid-cols-3">
