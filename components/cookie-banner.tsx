@@ -39,7 +39,7 @@ export default function CookieBanner() {
           .
         </p>
         <div className="flex space-x-2">
-          <Button variant="outline" className="text-gray-700 border-gray-300" onClick={handleReject}>
+          <Button variant="outline" className="text-gray-700 border-gray-300 bg-transparent" onClick={handleReject}>
             No thanks
           </Button>
           <Button className="bg-africa-green hover:bg-africa-dark-green text-white" onClick={handleAccept}>
@@ -50,3 +50,5 @@ export default function CookieBanner() {
     </div>
   )
 }
+
+export { CookieBanner }

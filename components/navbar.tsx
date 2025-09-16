@@ -130,7 +130,7 @@ export default function Navbar() {
               <Button
                 variant="outline"
                 size="sm"
-                className="text-white border-white hover:bg-white hover:text-[#0A5D22]"
+                className="text-white border-white hover:bg-white hover:text-[#0A5D22] bg-transparent"
               >
                 Subscribe
               </Button>
@@ -144,3 +144,5 @@ export default function Navbar() {
     </header>
   )
 }
+
+export { Navbar }

@@ -1,7 +1,7 @@
 "use client"
 
-import { SignIn } from "@clerk/nextjs"
 import { useState } from "react"
+import { SignIn } from "@clerk/nextjs"
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
 
 export default function AuthPage() {
@@ -9,7 +9,7 @@ export default function AuthPage() {
 
   return (
     <div className="min-h-screen">
-      <style jsx global>{`
+      <style jsx>{`
         * {
           margin: 0;
           padding: 0;
@@ -123,6 +123,21 @@ export default function AuthPage() {
           line-height: 1.8;
           margin-bottom: 2rem;
         }
+        .demo-status {
+          background: linear-gradient(135deg, #ff9800, #f57c00);
+          color: white;
+          padding: 1rem 2rem;
+          border-radius: 50px;
+          font-weight: 600;
+          display: inline-block;
+          box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3);
+          animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+          0% { transform: scale(1); }
+          50% { transform: scale(1.05); }
+          100% { transform: scale(1); }
+        }
         .features-preview {
           display: grid;
           grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -188,7 +203,6 @@ export default function AuthPage() {
           display: inline-block;
           box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
           margin-right: 1rem;
-          margin-bottom: 1rem;
         }
         .contact-button:hover {
           transform: translateY(-3px);
@@ -205,7 +219,6 @@ export default function AuthPage() {
           font-weight: 600;
           cursor: pointer;
           transition: all 0.3s ease;
-          text-decoration: none;
           display: inline-block;
           box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
         }
@@ -271,11 +284,6 @@ export default function AuthPage() {
           .features-preview {
             grid-template-columns: 1fr;
             gap: 1rem;
-          }
-          .contact-button, .signin-button {
-            display: block;
-            margin: 0.5rem auto;
-            width: fit-content;
           }
         }
         .scroll-indicator {
@@ -370,10 +378,9 @@ export default function AuthPage() {
             >
               Get in Touch
             </a>
-
             <Dialog open={showSignIn} onOpenChange={setShowSignIn}>
               <DialogTrigger asChild>
-                <button className="signin-button">Sign In (Approved Users)</button>
+                <button className="signin-button">Sign In</button>
               </DialogTrigger>
               <DialogContent className="sm:max-w-md">
                 <SignIn
