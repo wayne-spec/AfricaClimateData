@@ -123,21 +123,6 @@ export default function AuthPage() {
           line-height: 1.8;
           margin-bottom: 2rem;
         }
-        .demo-status {
-          background: linear-gradient(135deg, #ff9800, #f57c00);
-          color: white;
-          padding: 1rem 2rem;
-          border-radius: 50px;
-          font-weight: 600;
-          display: inline-block;
-          box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3);
-          animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-          0% { transform: scale(1); }
-          50% { transform: scale(1.05); }
-          100% { transform: scale(1); }
-        }
         .features-preview {
           display: grid;
           grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -203,6 +188,7 @@ export default function AuthPage() {
           display: inline-block;
           box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
           margin-right: 1rem;
+          margin-bottom: 1rem;
         }
         .contact-button:hover {
           transform: translateY(-3px);
